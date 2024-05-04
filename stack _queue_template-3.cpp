@@ -5,7 +5,7 @@
 #include <algorithm>
 
 // Yuuji Kobayashi
-//CWID: 886294727
+// CWID: 886294727
 
 class Stack
 {
