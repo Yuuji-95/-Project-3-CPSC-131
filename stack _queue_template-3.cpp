@@ -88,17 +88,19 @@ class Stack
     for (char ch : expression) {
         if (isOpen(ch)) {
             stack.push_back(ch);
+            std::cout << "Pushed: " << ch << ", Stack size: " << stack.size() << std::endl;
         } else if (isClose(ch)) {
             if (!stack.empty() && isMatch(stack.back(), ch)) {
                 stack.pop_back();
             } else {
                 unmatchedClosing++;
+                std::cout << "Unmatched closing increased, Current unmatched closings: " << unmatchedClosing << std::endl;
             }
         }
     }
 
     int totalUnmatched = stack.size() + unmatchedClosing;
-    std::cout << totalUnmatched << std::endl;
+    std::cout << "Total unmatched for expression [" << expression << "]: " << totalUnmatched << std::endl;
 }
 
     void scorePara(const std::string& expression) {
