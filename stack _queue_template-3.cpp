@@ -48,74 +48,68 @@ class Stack
     }
     public:
     void validPara(const std::string& expression) {
-        for (int i = 0; i < expression.length(); ++i) {
-            char ch = expression[i];
-            if (isOpen(ch)) {
-                push(ch, i);
-            } else if (isClose(ch)) {
-                if (!isEmpty() && isMatch(top().first, ch)) {
-                    pop();
-                } else {
-                    std::cout << "invalid" << std::endl;
-                    return;
-                }
-            }
-        }
-        std::cout << (isEmpty() ? "valid" : "invalid") << std::endl;
-    }
-
-    int indexError(const std::string& expression) {
-        for (int i = 0; i < expression.length(); ++i) {
-            char ch = expression[i];
-            if (isOpen(ch)) {
-                push(ch, i);
-            } else if (isClose(ch)) {
-                if (!isEmpty() && isMatch(top().first, ch)) {
-                    pop();
-                } else {
-                    return i;
-                }
-            }
-        }
-        return isEmpty() ? -1 : top().second;
-    }
-
-    void minPara(const std::string& expression) {
-    int count = 0;
+    std::vector<std::pair<char, int>> stack;
     for (int i = 0; i < expression.length(); ++i) {
         char ch = expression[i];
         if (isOpen(ch)) {
-            push(ch, i);
+            stack.push_back({ch, i});
         } else if (isClose(ch)) {
-            if (!isEmpty() && isMatch(top().first, ch)) {
-                pop();
+            if (!stack.empty() && isMatch(stack.back().first, ch)) {
+                stack.pop_back();
             } else {
-                count++; // Count unmatched closing parenthesis
-                continue;
+                std::cout << "invalid" << std::endl;
+                return;
             }
         }
     }
-    count += paren_stack.size();
-    std::cout << count << std::endl;
+    std::cout << (stack.empty() ? "valid" : "invalid") << std::endl;
+}
+
+    int indexError(const std::string& expression) {
+    std::vector<std::pair<char, int>> stack;
+    for (int i = 0; i < expression.length(); ++i) {
+        char ch = expression[i];
+        if (isOpen(ch)) {
+            stack.push_back({ch, i});
+        } else if (isClose(ch)) {
+            if (stack.empty() || !isMatch(stack.back().first, ch)) {
+                return i;  // Immediate return on first unmatched closing
+            }
+            stack.pop_back();
+        }
+    }
+    return stack.empty() ? -1 : stack.back().second;  // If stack isn't empty, return the last unmatched opening
+}
+
+    void minPara(const std::string& expression) {
+    std::vector<char> stack;
+    for (char ch : expression) {
+        if (ch == '(' || ch == '{' || ch == '[') {
+            stack.push_back(ch);
+        } else {
+            if (!stack.empty() && isMatch(stack.back(), ch)) {
+                stack.pop_back();
+            } else {
+                stack.push_back(ch); // Push unmatched closing brackets as well
+            }
+        }
+    }
+    std::cout << stack.size() << std::endl;  // Output the count of unmatched brackets
 }
 
     void scorePara(const std::string& expression) {
-    int score = 0;
-    for (int i = 0; i < expression.length(); ++i) {
-        char ch = expression[i];
+    std::vector<char> stack;
+    int validPairs = 0;
+    for (char ch : expression) {
         if (isOpen(ch)) {
-            push(ch, i);
-        } else if (isClose(ch)) {
-            if (!isEmpty() && isMatch(top().first, ch)) {
-                pop();
-                score++; // Increment score for a valid match
-            } else {
-                continue;
-            }
+            stack.push_back(ch);
+        } else if (!stack.empty() && isMatch(stack.back(), ch)) {
+            stack.pop_back();
+            ++validPairs;
         }
     }
-        std::cout << score << std::endl;
-    }
+    std::cout << validPairs << std::endl;
+}
 };
 
 class Queue
