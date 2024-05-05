@@ -95,11 +95,10 @@ class Stack
                 unmatchedClosing++;
             }
         }
-        std::cout << "Processing: " << ch << ", Stack Size: " << stack.size() << ", Unmatched Closing: " << unmatchedClosing << std::endl;
     }
 
     int totalUnmatched = stack.size() + unmatchedClosing;
-    std::cout << "Total Unmatched: " << totalUnmatched << std::endl;
+    std::cout << totalUnmatched << std::endl;
 }
 
     void scorePara(const std::string& expression) {
