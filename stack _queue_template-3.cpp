@@ -92,12 +92,12 @@ class Stack
             if (!stack.empty() && isMatch(stack.back().first, ch)) {
                 stack.pop_back();
             } else {
-                unbalancedClosings++; // Count unmatched closing parenthesis
+                unbalancedClosings++;
             }
         }
     }
 
-    int totalNeeded = unbalancedClosings + stack.size(); // Unmatched openings are still in the stack
+    int totalNeeded = unbalancedClosings + stack.size();
     std::cout << "Min: " << totalNeeded << std::endl;
 }
 
