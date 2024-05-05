@@ -81,23 +81,25 @@ class Stack
     }
 
     void minPara(const std::string& expression) {
-        int count = 0;
-        for (int i = 0; i < expression.length(); ++i) {
-            char ch = expression[i];
-            if (isOpen(ch)) {
-                push(ch, i);
-            } else if (isClose(ch)) {
-                if (!isEmpty() && isMatch(top().first, ch)) {
-                    pop();
-                } else {
-                    count++;
-                    continue;
-                }
+    std::vector<std::pair<char, int>> stack;
+    int unbalancedClosings = 0;
+
+    for (int i = 0; i < expression.length(); ++i) {
+        char ch = expression[i];
+        if (isOpen(ch)) {
+            stack.push_back(std::make_pair(ch, i));
+        } else if (isClose(ch)) {
+            if (!stack.empty() && isMatch(stack.back().first, ch)) {
+                stack.pop_back();
+            } else {
+                unbalancedClosings++; // Count unmatched closing parenthesis
             }
         }
-        count += paren_stack.size();
-        std::cout << "Min: " << count << std::endl;
     }
+
+    int totalNeeded = unbalancedClosings + stack.size(); // Unmatched openings are still in the stack
+    std::cout << "Min: " << totalNeeded << std::endl;
+}
 
     void scorePara(const std::string& expression) {
         int score = 0;
