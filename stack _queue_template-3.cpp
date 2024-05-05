@@ -73,33 +73,32 @@ class Stack
             stack.push_back({ch, i});
         } else if (isClose(ch)) {
             if (stack.empty() || !isMatch(stack.back().first, ch)) {
-                return i;  // Immediate return on first unmatched closing
+                return i;
             }
             stack.pop_back();
         }
     }
-    return stack.empty() ? -1 : stack.back().second;  // If stack isn't empty, return the last unmatched opening
+    return stack.empty() ? -1 : stack.back().second;
 }
 
     void minPara(const std::string& expression) {
-    std::vector<char> stack;  // To track unmatched opening brackets
-    int neededClosings = 0;  // To track how many closing brackets are needed
+    std::vector<char> stack;
+    int unmatchedClosing = 0;
 
     for (char ch : expression) {
         if (isOpen(ch)) {
             stack.push_back(ch);
         } else if (isClose(ch)) {
             if (!stack.empty() && isMatch(stack.back(), ch)) {
-                stack.pop_back();  // Matching found, pop from stack
+                stack.pop_back();
             } else {
-                neededClosings++;  // No matching opening, count needed closing
+                unmatchedClosing++;
             }
         }
     }
 
-    // The total needed to balance the expression
-    int totalNeeded = stack.size() + neededClosings;
-    std::cout << totalNeeded << std::endl;
+    int totalUnmatched = stack.size() + unmatchedClosing;
+    std::cout << totalUnmatched << std::endl;
 }
 
     void scorePara(const std::string& expression) {
