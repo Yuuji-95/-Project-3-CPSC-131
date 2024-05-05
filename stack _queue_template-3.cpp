@@ -109,7 +109,7 @@ class Stack
             stack.push_back(ch);
         } else if (!stack.empty() && isMatch(stack.back(), ch)) {
             stack.pop_back();
-            ++validPairs;
+            validPairs++;
         }
     }
     std::cout << validPairs << std::endl;
