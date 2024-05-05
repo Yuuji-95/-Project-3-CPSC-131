@@ -83,18 +83,23 @@ class Stack
 
     void minPara(const std::string& expression) {
     std::vector<char> stack;
+    int unmatchedClosing = 0;
+
     for (char ch : expression) {
-        if (ch == '(' || ch == '{' || ch == '[') {
+        if (isOpen(ch)) {
             stack.push_back(ch);
-        } else {
+        } else if (isClose(ch)) {
             if (!stack.empty() && isMatch(stack.back(), ch)) {
                 stack.pop_back();
             } else {
-                stack.push_back(ch); // Push unmatched closing brackets as well
+                unmatchedClosing++; // Counting unmatched closing brackets directly
             }
         }
     }
-    std::cout << stack.size() << std::endl;  // Output the count of unmatched brackets
+
+    // Total unmatched is the size of the stack (unmatched openings) plus unmatched closings
+    int totalUnmatched = stack.size() + unmatchedClosing;
+    std::cout << totalUnmatched << std::endl;
 }
 
     void scorePara(const std::string& expression) {
