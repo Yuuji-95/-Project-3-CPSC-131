@@ -85,27 +85,20 @@ class Stack
     std::vector<char> stack;
     int unmatchedClosing = 0;
 
-    for (int i = 0; i < expression.length(); ++i) {
-        char ch = expression[i];
-        std::cout << "Processing: " << ch << std::endl;
+    for (char ch : expression) {
         if (isOpen(ch)) {
             stack.push_back(ch);
-            std::cout << "Push to stack: " << ch << std::endl;
         } else if (isClose(ch)) {
             if (!stack.empty() && isMatch(stack.back(), ch)) {
                 stack.pop_back();
-                std::cout << "Pop from stack: " << ch << std::endl;
             } else {
                 unmatchedClosing++;
-                std::cout << "Unmatched closing: " << ch << std::endl;
             }
         }
-        std::cout << "Current unmatchedClosing: " << unmatchedClosing << std::endl;
-        std::cout << "Current stack size: " << stack.size() << std::endl;
     }
 
     int totalUnmatched = stack.size() + unmatchedClosing;
-    std::cout << "Total Unmatched: " << totalUnmatched << std::endl;
+    std::cout << totalUnmatched << std::endl;
 }
 
     void scorePara(const std::string& expression) {
